@@ -1,9 +1,14 @@
-const Renderer = ({ originalUrl }, isBrowser) => {
+const Renderer = async ({ originalUrl }, isBrowser) => {
   const message = isBrowser ? 'In da browser 😎' : 'Node.js all the way 💻';
-  return `
-    <h1>${originalUrl}</h1>
-    <h2>${message}</h2>
-  `;
+  return fetch(`https://randomuser.me/api/?seed=${originalUrl}`)
+    .then(res => res.json())
+    .then(data => {
+      return `
+        <h1>${originalUrl}</h1>
+        <h2>${message}</h2>
+        <pre>${JSON.stringify(data.results[0].login, null, 4)}</pre>
+      `;
+    });
 };
 
 

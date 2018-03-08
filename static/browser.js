@@ -14,7 +14,7 @@ document.body.addEventListener('click', e => {
 
 window.addEventListener('popstate', e => updateView(e.state || defaultState));
 
-function updateView({ originalUrl }) {
-  const view = window.returnExports.Renderer({ originalUrl }, true);
+async function updateView({ originalUrl }) {
+  const view = await window.returnExports.Renderer({ originalUrl }, true);
   document.querySelector('#view').innerHTML = view;
 }

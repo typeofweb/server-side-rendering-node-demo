@@ -1,3 +1,5 @@
+require('isomorphic-fetch');
+
 const express = require('express');
 const app = express();
 const { Renderer } = require('./common/renderer');
@@ -5,8 +7,8 @@ const { Renderer } = require('./common/renderer');
 app.use(express.static('static'));
 app.use('/common', express.static('common'));
 
-app.get('/*', (req, res) => {
-  const view = Renderer({originalUrl: req.originalUrl}, false);
+app.get('/*', async (req, res) => {
+  const view = await Renderer({originalUrl: req.originalUrl}, false);
 
   res.send(`
   <!DOCTYPE html>
