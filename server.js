@@ -21,6 +21,8 @@ app.get('/*', (req, res) => {
       <li><a href="/something-else">Something else</a></li>
     </ul>
     ${req.originalUrl}
+
+    <script src="browser.js"></script>
   </body>
   </html>
   `);
