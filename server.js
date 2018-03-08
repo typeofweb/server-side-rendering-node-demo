@@ -1,9 +1,13 @@
 const express = require('express');
 const app = express();
+const { Renderer } = require('./common/renderer');
 
 app.use(express.static('static'));
+app.use('/common', express.static('common'));
 
 app.get('/*', (req, res) => {
+  const view = Renderer({originalUrl: req.originalUrl}, false);
+
   res.send(`
   <!DOCTYPE html>
   <html lang="en">
@@ -20,8 +24,12 @@ app.get('/*', (req, res) => {
       <li><a href="/about">About</a></li>
       <li><a href="/something-else">Something else</a></li>
     </ul>
-    ${req.originalUrl}
+    
+    <div id="view">
+      ${view}
+    </div>
 
+    <script src="common/renderer.js"></script>
     <script src="browser.js"></script>
   </body>
   </html>
