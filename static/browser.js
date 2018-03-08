@@ -1,11 +1,20 @@
+const defaultState = {originalUrl: ''};
+
 document.body.addEventListener('click', e => {
   if (e.target.tagName.toLowerCase() === 'a') {
     e.preventDefault();
-    const { href, pathname } = e.target;
+    const { href, pathname: originalUrl } = e.target;
 
-    history.pushState(null, null, href);
-    
-    const view = window.returnExports.Renderer({originalUrl: pathname}, true);
-    document.querySelector('#view').innerHTML = view;
+    const state = { originalUrl };
+    history.pushState(state, null, href);
+    updateView(state);
   }
+  return true;
 }, false);
+
+window.addEventListener('popstate', e => updateView(e.state || defaultState));
+
+function updateView({ originalUrl }) {
+  const view = window.returnExports.Renderer({ originalUrl }, true);
+  document.querySelector('#view').innerHTML = view;
+}
